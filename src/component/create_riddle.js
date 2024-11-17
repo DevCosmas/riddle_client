@@ -87,7 +87,7 @@ export default function CreateRiddleComponent() {
     console.log(formDataToSend, 'server data');
     try {
       const response = await axios.post(
-        `${API_BASE_URL.dev}/api/riddle/action/create`,
+        `${API_BASE_URL.prod}/api/riddle/action/create`,
         formDataToSend,
         {
           headers: {

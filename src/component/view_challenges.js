@@ -18,7 +18,7 @@ export default function ViewChallengesComponent() {
   const [itemsPerPage] = useState(6);
   const [openModal, setOpenModal] = useState(false);
   const [currentChallenge, setCurrentChallenge] = useState(null);
-  const [ranking, setRanking] = useState(null);
+  const [ranking, setRanking] = useState([]);
 
   function handleRankingModal(id) {
     setOpenModal(!openModal);
@@ -32,7 +32,7 @@ export default function ViewChallengesComponent() {
     const fetchChallenges = async () => {
       try {
         const response = await axios.get(
-          `${API_BASE_URL.dev}/api/riddle/my_riddles`,
+          `${API_BASE_URL.prod}/api/riddle/my_riddles`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -60,7 +60,7 @@ export default function ViewChallengesComponent() {
 
     try {
       const response = await axios.get(
-        `${API_BASE_URL.dev}/api/riddle/my_riddles/${id}`,
+        `${API_BASE_URL.prod}/api/riddle/my_riddles/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -82,7 +82,6 @@ export default function ViewChallengesComponent() {
       setRanking(sortedAnswers);
 
       console.log(sortedAnswers);
-      
     } catch (error) {
       console.error('Error fetching challenge details:', error.response);
     }

@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
   // Login function
   const login = async (email, password) => {
     try {
-      const response = await axios.post(`${API_BASE_URL.dev}/api/user/login`, {
+      const response = await axios.post(`${API_BASE_URL.prod}/api/user/login`, {
         email,
         password,
       });
@@ -37,12 +37,15 @@ const AuthProvider = ({ children }) => {
   // Sign-up function
   const signup = async (username, email, password, confirmPassword) => {
     try {
-      const response = await axios.post(`${API_BASE_URL.dev}/api/user/signup`, {
-        username,
-        email,
-        password,
-        confirmPassword,
-      });
+      const response = await axios.post(
+        `${API_BASE_URL.prod}/api/user/signup`,
+        {
+          username,
+          email,
+          password,
+          confirmPassword,
+        }
+      );
 
       console.log(response);
       const { data } = response;

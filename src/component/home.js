@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default function HomeComponent() {
   return (
-    <div className="bg-gradient-to-r from-slate-900 to-blue-900 min-h-screen flex flex-col">
+    <div className="bg-gradient-to-r fixed top-0 bottom-0 right-0 left-0 from-slate-900 to-blue-900 min-h-screen flex flex-col">
       {/* Logo Section */}
       <div className="p-6">
         <Logo />
@@ -24,15 +24,15 @@ export default function HomeComponent() {
           <br />
           Have fun and let the games begin. 🎉
         </p>
-      </div>
 
-      {/* Call-to-Action Section */}
-      <div className="flex justify-center pb-8">
-        <Link
-          to={'/login'}
-          className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition">
-          Get Started
-        </Link>
+        {/* Call-to-Action Section */}
+        <div className="flex justify-center my-11 pb-8">
+          <Link
+            to={'/login'}
+            className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition">
+            Get Started
+          </Link>
+        </div>
       </div>
     </div>
   );

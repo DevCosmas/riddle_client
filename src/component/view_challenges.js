@@ -9,6 +9,7 @@ import {
   FaEye,
 } from 'react-icons/fa';
 import RankingLeadershipComponent from './ranking';
+import { handleServerError } from '../utils/server.error';
 
 export default function ViewChallengesComponent() {
   const [challenges, setChallenges] = useState([]);
@@ -67,7 +68,7 @@ export default function ViewChallengesComponent() {
           },
         }
       );
-      console.log(response);
+
       setCurrentChallenge(response.data);
 
       // Sort the answers directly from the fetched data
@@ -80,10 +81,8 @@ export default function ViewChallengesComponent() {
 
       // Set the ranking
       setRanking(sortedAnswers);
-
-      console.log(sortedAnswers);
     } catch (error) {
-      console.error('Error fetching challenge details:', error.response);
+      handleServerError(error.response?.status, error.response?.data?.message);
     }
   }
 

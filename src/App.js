@@ -7,6 +7,8 @@ import Dashboard from './pages/dashboard';
 import CreateRiddleComponent from './component/create_riddle';
 import ViewChallengesComponent from './component/view_challenges';
 import DashboardHome from './component/home_dashboard';
+import UpdatePage from './pages/update';
+import ProtectedRoute from './pages/protected';
 
 const App = () => {
   return (
@@ -29,7 +31,11 @@ const App = () => {
           {/* Dashboard with nested routes */}
           <Route
             path="/dashboard"
-            element={<Dashboard />}>
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }>
             <Route
               index
               element={<DashboardHome />}
@@ -41,6 +47,10 @@ const App = () => {
             <Route
               path="view-challenges"
               element={<ViewChallengesComponent />}
+            />
+            <Route
+              path="update-user"
+              element={<UpdatePage />}
             />
           </Route>
         </Routes>

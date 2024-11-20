@@ -5,7 +5,6 @@ export default function DashboardHome() {
   const { user } = useAuth();
   return (
     <div>
-      {' '}
       {/* Header */}
       <div className=" flex justify-between items-center mb-6">
         <h1 className="text-3xl text-gray-800">
@@ -44,7 +43,7 @@ export default function DashboardHome() {
           <div className="mt-4 flex  flex-col items-start  justify-between">
             <p className="text-gray-700">Adjust your profile settings here.</p>
             <Link
-              to="/settings"
+              to="/dashboard/update-user"
               className="mt-6 py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
               Manage Settings
             </Link>

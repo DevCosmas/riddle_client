@@ -3,6 +3,7 @@ import API_BASE_URL from '../constant/api';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { IoCopy } from 'react-icons/io5';
+import { handleServerError } from '../utils/server.error';
 
 export default function CreateRiddleComponent() {
   const [openModal, setOpenModal] = useState(false);
@@ -110,6 +111,7 @@ export default function CreateRiddleComponent() {
       });
     } catch (error) {
       console.error('Error:', error);
+      handleServerError(error.response?.status, error.response?.data?.message);
     }
   };
 
@@ -132,6 +134,7 @@ export default function CreateRiddleComponent() {
             onChange={handleInputChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg"
             required
+            placeholder="i disobey the law of gravity , who am i ?"
           />
         </div>
 
@@ -150,6 +153,7 @@ export default function CreateRiddleComponent() {
             onChange={handleInputChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg"
             required
+            placeholder="age"
           />
         </div>
 
@@ -167,6 +171,7 @@ export default function CreateRiddleComponent() {
             onChange={handleInputChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg"
             required
+            placeholder=" e.g Answer this simple challenge an win a rewarding prize of 1 SOl"
           />
         </div>
 
@@ -185,6 +190,7 @@ export default function CreateRiddleComponent() {
             onChange={handleInputChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg"
             required
+            placeholder="100, amount to be rewarded in sol"
           />
         </div>
 
@@ -208,6 +214,7 @@ export default function CreateRiddleComponent() {
                   onChange={(e) => handleOptionChange(e, index)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                   required
+                  placeholder="answer options"
                 />
               </div>
             ))}
@@ -228,7 +235,7 @@ export default function CreateRiddleComponent() {
               value={formData.duration.value}
               onChange={handleDurationChange}
               className="w-1/2 px-4 py-2 border border-gray-300 rounded-lg"
-              placeholder="Value"
+              placeholder="how long will the challenge last"
               required
             />
             <select

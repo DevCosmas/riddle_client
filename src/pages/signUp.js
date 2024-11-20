@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Logo from '../component/logo';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import Notify from '../component/notify';
 
 const SignUpPage = () => {
   const [username, setUsername] = useState('');
@@ -11,14 +12,15 @@ const SignUpPage = () => {
 
   const navigate = useNavigate();
 
-  const { signup } = useAuth();
+  const { signup, isLoading } = useAuth();
 
   async function handleSignUp(e) {
     e.preventDefault();
 
     try {
       const isSignUp = await signup(username, email, password, confirmPassword);
-      if (!isSignUp) throw new Error('sign up was not successful');
+      if (!isSignUp) return;
+
       navigate('/login');
     } catch (error) {
       console.log(error);
@@ -115,8 +117,10 @@ const SignUpPage = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full mt-4 py-2 px-4 bg-blue-600 rounded-md text-white text-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            Sign Up
+            className={`w-full mt-4 py-2 px-4 ${
+              isLoading ? 'bg-blue-400' : 'bg-blue-600'
+            } rounded-md text-white text-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500`}>
+            {isLoading ? 'Signing Up....' : 'Sign Up'}
           </button>
 
           {/* Login Link */}
@@ -130,6 +134,7 @@ const SignUpPage = () => {
           </p>
         </form>
       </div>
+      <Notify />
     </div>
   );
 };

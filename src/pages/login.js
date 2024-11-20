@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../component/logo';
 import { useAuth } from '../context/AuthContext';
+import Notify from '../component/notify';
 
 const LoginPage = () => {
   // Ensure that 'login' is properly retrieved from 'useAuth'
-  const { login } = useAuth();
+  const { login, isLoading } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -19,7 +20,7 @@ const LoginPage = () => {
       // Call login function from context
       const isLoggedIn = await login(email, password);
 
-      if (!isLoggedIn) throw new Error('Login was not successful');
+      if (!isLoggedIn) return;
 
       // Redirect to dashboard if login is successful
       navigate('/dashboard');
@@ -42,7 +43,7 @@ const LoginPage = () => {
         {/* Login Form */}
         <form
           className="flex flex-col gap-4"
-          onSubmit={handleLogin}>
+          onSubmit={(e) => handleLogin(e)}>
           {/* Email Input */}
           <div>
             <label
@@ -84,8 +85,10 @@ const LoginPage = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full mt-4 py-2 px-4 bg-blue-600 rounded-md text-white text-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            Login
+            className={`w-full mt-4 py-2 px-4 ${
+              isLoading ? 'bg-blue-400' : 'bg-blue-600'
+            } rounded-md text-white text-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500`}>
+            {isLoading ? 'Authenticating...' : 'Login'}
           </button>
 
           {/* Register Link */}
@@ -99,6 +102,7 @@ const LoginPage = () => {
           </p>
         </form>
       </div>
+      <Notify />
     </div>
   );
 };

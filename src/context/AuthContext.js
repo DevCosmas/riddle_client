@@ -94,7 +94,7 @@ const AuthProvider = ({ children }) => {
       };
 
       const response = await axios.patch(
-        `${API_BASE_URL.dev}/api/user/update`,
+        `${API_BASE_URL.prod}/api/user/update`,
         requestData,
         { headers }
       );

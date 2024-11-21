@@ -48,6 +48,10 @@ export default function ViewChallengesComponent() {
         setTotalPages(response.data.totalPages);
       } catch (error) {
         console.error('Error fetching challenges:', error);
+        handleServerError(
+          error.response?.status,
+          error.response?.data?.message
+        );
       } finally {
         setLoading(false);
       }

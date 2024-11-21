@@ -7,6 +7,7 @@ import { handleServerError } from '../utils/server.error';
 
 export default function CreateRiddleComponent() {
   const [openModal, setOpenModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [blink, setBlink] = useState('');
   const [formData, setFormData] = useState({
     question: '',
@@ -84,9 +85,8 @@ export default function CreateRiddleComponent() {
     // Get the auth token from cookies
     const token = Cookies.get('token');
 
-    console.log(token, 'header token');
-    console.log(formDataToSend, 'server data');
     try {
+      setIsLoading(true);
       const response = await axios.post(
         `${API_BASE_URL.prod}/api/riddle/action/create`,
         formDataToSend,
@@ -97,6 +97,7 @@ export default function CreateRiddleComponent() {
         }
       );
       if (!response) throw new Error('request could not be processed');
+      setIsLoading(false);
       setOpenModal(true);
       setBlink(response.data.data.blink);
       console.log('Response:', response);
@@ -110,7 +111,8 @@ export default function CreateRiddleComponent() {
         icon: null,
       });
     } catch (error) {
-      console.error('Error:', error);
+      setIsLoading(false);
+      // console.error('Error:', error);
       handleServerError(error.response?.status, error.response?.data?.message);
     }
   };
@@ -273,7 +275,7 @@ export default function CreateRiddleComponent() {
           <button
             type="submit"
             className="py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-lg w-full">
-            Create Riddle
+            {isLoading ? 'Creating...' : 'Create Riddle'}
           </button>
         </div>
       </form>

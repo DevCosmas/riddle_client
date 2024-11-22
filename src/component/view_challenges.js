@@ -16,7 +16,7 @@ export default function ViewChallengesComponent() {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [itemsPerPage] = useState(6);
+
   const [openModal, setOpenModal] = useState(false);
   const [currentChallenge, setCurrentChallenge] = useState(null);
   const [ranking, setRanking] = useState([]);
@@ -33,21 +33,28 @@ export default function ViewChallengesComponent() {
     const fetchChallenges = async () => {
       try {
         const response = await axios.get(
-          `${API_BASE_URL.prod}/api/riddle/my_riddles`,
+          `${API_BASE_URL.prod}/api/riddle/my_riddles?page=${currentPage}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
             params: {
               page: currentPage,
-              limit: itemsPerPage,
             },
           }
         );
+
         setChallenges(response.data.data);
-        setTotalPages(response.data.totalPages);
+        setTotalPages(response.data.data.page);
       } catch (error) {
         console.error('Error fetching challenges:', error);
+        if (
+          error.response.data.message.includes(
+            'No riddle challenge created yet'
+          )
+        ) {
+          return setChallenges([]);
+        }
         handleServerError(
           error.response?.status,
           error.response?.data?.message
@@ -58,7 +65,7 @@ export default function ViewChallengesComponent() {
     };
 
     fetchChallenges();
-  }, [currentPage, itemsPerPage]);
+  }, [currentPage]);
 
   async function viewOneChallenge(id) {
     const token = Cookies.get('token');
@@ -90,10 +97,11 @@ export default function ViewChallengesComponent() {
     }
   }
 
-  const handlePageChange = (pageNumber) => {
-    if (pageNumber >= 1 && pageNumber <= totalPages) {
-      setCurrentPage(pageNumber);
-    }
+  const handlePrevPageChange = (pageNumber) => {
+    setCurrentPage((current) => current - 1);
+  };
+  const handleNextPageChange = () => {
+    setCurrentPage((current) => current + 1);
   };
 
   const statusIcon = (status) => {
@@ -173,7 +181,7 @@ export default function ViewChallengesComponent() {
           <div className="mt-6 flex justify-center items-center space-x-4">
             <button
               className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition"
-              onClick={() => handlePageChange(currentPage - 1)}
+              onClick={() => handlePrevPageChange(currentPage - 1)}
               disabled={currentPage === 1}>
               Prev
             </button>
@@ -182,7 +190,7 @@ export default function ViewChallengesComponent() {
             </span>
             <button
               className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition"
-              onClick={() => handlePageChange(currentPage + 1)}
+              onClick={() => handleNextPageChange()}
               disabled={currentPage === totalPages}>
               Next
             </button>
@@ -194,7 +202,7 @@ export default function ViewChallengesComponent() {
           rankings={ranking}
           openModal={openModal}
           closeModal={handleRankingModal}
-          challenge={currentChallenge} // Pass the current challenge details
+          challenge={currentChallenge}
         />
       )}
     </div>

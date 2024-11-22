@@ -53,7 +53,7 @@ export default function Dashboard() {
           <li className=" mx-auto sm:px-3 sm:mt-11 ">
             <button
               onClick={handleLogout}
-              className=" py-3 w-full rounded-md px-3 sm:hover:bg-red-800 text-red-600 sm:bg-red-600 flex justify-center md:justify-start items-center">
+              className=" py-3 w-full rounded-md sm:text-slate-50 px-3 sm:hover:bg-red-800 text-red-600 sm:bg-red-600 flex justify-center md:justify-start items-center">
               <FaSignOutAlt className="text-2xl" />
               <span className="hidden md:inline ml-3">Logout</span>
             </button>
